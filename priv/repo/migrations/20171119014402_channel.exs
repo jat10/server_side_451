@@ -5,9 +5,11 @@ defmodule ServerSide451.Repo.Migrations.Channel do
 		create table(:channel) do
 			add :channel_number, :string
 			add :available_users, :jsonb
-			add :master, references(:users, on_delete: :delete_all), null: false
+			add :master, :string
 
 			timestamps()
 		end
+
+	create unique_index(:channel, [:master])
 	end
 end
