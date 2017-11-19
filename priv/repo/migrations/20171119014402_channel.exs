@@ -4,8 +4,9 @@ defmodule ServerSide451.Repo.Migrations.Channel do
 	def change do
 		create table(:channel) do
 			add :channel_number, :string
-			add :available_users, :jsonb
-			add :master, :string
+			add :slaves, :jsonb
+			add :available, :integer
+			add :master, :integer
 
 			timestamps()
 		end

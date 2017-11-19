@@ -37,4 +37,9 @@ defmodule ServerSide451.Info do
 		|> Repo.update()
 	end
 
+	def list_channels do
+		Channel
+    	|> Repo.all()
+	end
+
 end
