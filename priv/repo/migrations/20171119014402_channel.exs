@@ -3,14 +3,13 @@ defmodule ServerSide451.Repo.Migrations.Channel do
 
 	def change do
 		create table(:channel) do
-			add :channel_number, :string
-			add :slaves, :jsonb
+			add :channel_number, :integer
 			add :available, :integer
 			add :master, :integer
 
 			timestamps()
 		end
 
-	create unique_index(:channel, [:master])
+	create unique_index(:channel, [:channel_number])
 	end
 end

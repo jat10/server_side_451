@@ -3,18 +3,34 @@ defmodule ServerSide451Web.ApiController do
   alias ServerSide451.Info.{User, Channel}
 
  
- 	# def return_available_channel(conn, params) do
- 	# 	list_of_channels = Channel.list_channels
- 	# 	map = Enum.map_reduce(list_of_channels, acc = {%{available_channels: %{}, number: 0}} ,fn(x, acc) -> 
- 	# 		map_x = elem(acc,0)
 
- 	# 		case x.available do
- 	# 			1 ->
- 	# 				values = Map.put(map_x,:available_channels,)
- 	# 		end
+  def return_available_channels() do
+  	list_of_channels = ServerSide451.Info.list_channels
 
- 	# 	end)
- 	# end
+  	%{"success" => list_of_channels}
 
+  end
 
+  def registerUser(%{"channel_id" => channel_id, "user_name" => user_name, "mac_address" => mac_address, "phone_number" => phone_number}) do
+  	list_of_user_in_channel = ServerSide451.Info.get_user_by_channel_number(channel_id)
+
+  	number_of_users_in_channel = Enum.count(list_of_user_in_channel)
+
+  	{master,channel_avilable} = case number_of_users_in_channel do
+  		0 ->
+  			#Let this user be the master
+  			{1, "true"}
+	  	7 ->
+	  		#The next user will make the channel not available
+	  		{0, "false"}
+	  	_ ->
+	  		
+  	end
+  		
+ 	channel = ServerSide451.Info.get_channel_by_channel_number(channel_id)
+	user = %{phone_number: phone_number,mac_address: mac_address,user_name: user_name}
+	ServerSide451.Info.create_user(channel,user)
+  
+  end
+ 
 end
