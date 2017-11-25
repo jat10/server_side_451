@@ -19,12 +19,14 @@ defmodule ServerSide451Web.ApiController do
   	{master,channel_avilable} = case number_of_users_in_channel do
   		0 ->
   			#Let this user be the master
+  			#timer will start
   			{1, "true"}
+
 	  	7 ->
 	  		#The next user will make the channel not available
 	  		{0, "false"}
 	  	_ ->
-	  		
+
   	end
   		
  	channel = ServerSide451.Info.get_channel_by_channel_number(channel_id)
