@@ -21,6 +21,10 @@ defmodule ServerSide451Web.ApiController do
   			#Let this user be the master
   			#timer will start
   			{1, "true"}
+  			case start_timer(480000) do
+  				:ok ->
+  					
+  			end
 
 	  	7 ->
 	  		#The next user will make the channel not available
@@ -33,6 +37,13 @@ defmodule ServerSide451Web.ApiController do
 	user = %{phone_number: phone_number,mac_address: mac_address,user_name: user_name}
 	ServerSide451.Info.create_user(channel,user)
   
+  end
+
+  def start_timer(miliseconds) do
+  	 case :timer.sleep(miliseconds) do
+  	 	:ok -> 
+  	 		:ok
+  	 end
   end
  
 end

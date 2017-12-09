@@ -7,10 +7,8 @@ defmodule ServerSide451.Info do
 		if (channel.available == 0) do
 			user = %User{}
 			|> User.changeset(attrs)
-			|> Ecto.Changeset.put_change(:channel_number, channel.channel_number)
-			|> Repo.insert()
-			
-			user
+			|> Ecto.Changeset.put_change(:channel_id, channel.channel_number)
+		    |> Repo.insert() 
 		else 
 			{:error, "Channel is not available"}
 		end
@@ -56,6 +54,13 @@ defmodule ServerSide451.Info do
 	    |> select([c], %{channel_number: c.channel_number,available: c.available})
 	    |> Repo.all
 
+	end
+
+	def create_channels do
+		[1,2,3,4,5] |> Enum.each(fn(x) ->
+  			 %{channel_number: x, available: 0, master: 0}
+  		 	 |> create_channel
+		end)
 	end
 
 end
