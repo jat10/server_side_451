@@ -21,7 +21,7 @@ defmodule ServerSide451.Info do
 	end
 
 	def get_user_by_channel_number(channel_number) do
-		from(u in User, where: u.channel_number == ^channel_number) 
+		from(u in User, where: u.channel_id == ^channel_number) 
 	    |> select([u], u.phone_number)
 	    |> Repo.all
 	end

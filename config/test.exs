@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :server_side_451, ServerSide451.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "server_side_451_test",
-  hostname: "localhost",
+  username: "aubites",
+  password: "aubites_451",
+  database: "server_side_451",
+  hostname: "postgre.eweev.rocks",
   pool: Ecto.Adapters.SQL.Sandbox
