@@ -4,11 +4,12 @@ defmodule ServerSide451Web.ApiController do
 
  
 
-  def return_available_channels() do
+  def return_available_channels(conn, params) do
   	list_of_channels = ServerSide451.Info.list_channels
+  	message = %{"success" => list_of_channels}
 
-  	%{"success" => list_of_channels}
-
+  	conn
+    |> json(message)
   end
 
   def registerUser(%{"channel_id" => channel_id, "user_name" => user_name, "mac_address" => mac_address, "phone_number" => phone_number}) do
@@ -18,12 +19,12 @@ defmodule ServerSide451Web.ApiController do
 
   	{master,channel_avilable} = case number_of_users_in_channel do
   		0 ->
-  			#Let this user be the master
-  			#timer will start
-  			{1, "true"}
-  			case start_timer(480000) do
+  			{1,"true"}
+  		1 ->
+  			{0, "true"}
+  			case start_timer(60000) do
   				:ok ->
-  					
+
   			end
 
 	  	7 ->
