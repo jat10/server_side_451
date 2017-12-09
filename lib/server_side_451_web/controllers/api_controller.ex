@@ -34,5 +34,15 @@ defmodule ServerSide451Web.ApiController do
 	ServerSide451.Info.create_user(channel,user)
   
   end
+
+  def try_case_func(n) do
+
+  	case n do
+  		0..5 ->
+  			"greater than 5"
+  		5..10 ->
+  			"less than 5"
+  	end
+  end
  
 end

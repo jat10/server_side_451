@@ -6,7 +6,7 @@ defmodule ServerSide451.Repo.Migrations.User do
 		add :phone_number, :string
 		add :mac_address, :string
 		add :user_name, :string
-		add :channel_number,  references(:channel, on_delete: :nothing),
+		add :channel_id,  references(:channel, on_delete: :nothing),
                   null: false
 		timestamps()
 	end
