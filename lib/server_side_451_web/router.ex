@@ -15,8 +15,8 @@ defmodule ServerSide451Web.Router do
 
   scope "/", ServerSide451Web do
     pipe_through :browser # Use the default browser stack
-
     get "/", PageController, :index
+    get "/get_channel_list", ApiController, :return_available_channels
   end
 
   # Other scopes may use custom stacks.

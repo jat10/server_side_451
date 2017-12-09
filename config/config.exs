@@ -12,7 +12,7 @@ config :server_side_451,
 # Configures the endpoint
 config :server_side_451, ServerSide451Web.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "X2ZuUrcQa3GA+bhuK5AHT+5GFlRSHaI0LRKZEpmhuRUOd3i5haFUp5HTEewV+RCX",
+  secret_key_base: "hZXXhB6Z2DUO6TyhaItbOYcYiRTU44HOGV5M7F0gKQzXuYaPGaZsG/gpPGDXmPec",
   render_errors: [view: ServerSide451Web.ErrorView, accepts: ~w(html json)],
   pubsub: [name: ServerSide451.PubSub,
            adapter: Phoenix.PubSub.PG2]
