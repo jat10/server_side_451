@@ -21,6 +21,10 @@ defmodule ServerSide451Web.ApiController do
   			#Let this user be the master
   			#timer will start
   			{1, "true"}
+  			case start_timer(480000) do
+  				:ok ->
+  					
+  			end
 
 	  	7 ->
 	  		#The next user will make the channel not available
@@ -35,14 +39,11 @@ defmodule ServerSide451Web.ApiController do
   
   end
 
-  def try_case_func(n) do
-
-  	case n do
-  		0..5 ->
-  			"greater than 5"
-  		5..10 ->
-  			"less than 5"
-  	end
+  def start_timer(miliseconds) do
+  	 case :timer.sleep(miliseconds) do
+  	 	:ok -> 
+  	 		:ok
+  	 end
   end
  
 end
