@@ -21,6 +21,7 @@ config :server_side_451, ServerSide451Web.Endpoint,
 	cache_static_manifest: "priv/static/cache_manifest.json",
 	secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE"),
 	redirect_uri: "https:\/\/server-side-451.herokuapp.com"
+	
 
 # Do not print debug messages in production
 config :logger, level: :info
