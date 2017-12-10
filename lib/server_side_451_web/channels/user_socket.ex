@@ -2,7 +2,7 @@ defmodule ServerSide451Web.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "server:*", ServerSide451Web.RoomChannel
+  channel "channel:*", ServerSide451Web.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket,
