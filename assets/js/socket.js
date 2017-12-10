@@ -8,7 +8,7 @@ class App {
     })
 
     this.socket.connect() 
-    this.channel = this.socket.channel("server:2",{user_id: 0})
+    this.channel = this.socket.channel("channel:2",{user_id: 0})
 
 
     this.channel.join()
