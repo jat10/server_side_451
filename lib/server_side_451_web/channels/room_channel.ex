@@ -4,11 +4,11 @@
 
   alias HTTPoison
 
-  def join("server:" <> checkout_id, message, socket) do
+  def join("channel:" <> checkout_id, message, socket) do
  
       send(self(), :track)
       send(self(), {:after_join, message})
-      # send(self(), {:init, message})
+      send(self(), {:init, message})
       {:ok, socket}     
   end
 
@@ -24,7 +24,7 @@
   end
 
   def handle_info({:init, msg}, socket) do
-    
+       broadcast! socket, "msg", %{msg: "You are connected to the channel congrats"}
   end
 
   
