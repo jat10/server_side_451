@@ -44,8 +44,11 @@ class App {
 
     this.channel.on("new:msg", msg => {
       messagesContainer.append(this.messageTemplate(msg))
-      this.scroll()
       
+    })
+
+    this.channel.on("msg", msg => {
+      console.log("I am in socket.js")
     })
 
   }
