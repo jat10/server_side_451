@@ -25,6 +25,7 @@
 
   def handle_info({:init, msg}, socket) do
        broadcast! socket, "msg", %{msg: "You are connected to the channel congrats"}
+       {:noreply,socket}
   end
 
   
