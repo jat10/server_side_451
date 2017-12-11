@@ -18,7 +18,7 @@
   end
 
   def handle_info({:after_join, msg}, socket) do
-    broadcast! socket, "user:entered", %{user: msg["user"]}
+    # broadcast! socket, "user:entered", %{user: msg["user"]}
     push socket, "join", %{status: "connected"}
     {:noreply, socket}
   end
@@ -26,6 +26,11 @@
   def handle_info({:init, msg}, socket) do
        broadcast! socket, "msg", %{msg: "You are connected to the channel congrats"}
        {:noreply,socket}
+  end
+
+  def handle_in("get_list",msg,socket) do
+      push socket,"return_list", %{list: "list"}
+      {:noreply,socket}
   end
 
   
