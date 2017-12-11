@@ -26,6 +26,10 @@ defmodule ServerSide451.Info do
 	    |> Repo.all
 	end
 
+	def get_number_of_users_in_channel(channel_number) do
+		list = get_user_by_channel_number(channel_number) |> Enum.count
+	end
+
 	def update_user(%User{} = user, attrs) do
 		user
 		|> User.changeset(attrs)
@@ -51,9 +55,20 @@ defmodule ServerSide451.Info do
 
 	def list_channels do
 		from(c in Channel, where: c.available > -1) 
-	    |> select([c], %{channel_number: c.channel_number,available: c.available})
+	    |> select([c], 
+	    	%{channel_number: c.channel_number,
+	    	available: c.available, number_of_users: 0})
 	    |> Repo.all
 
+	end
+
+	def list_channel_detailed do
+		list = list_channels
+		list |> Enum.map(fn x -> 
+			channel_number = x.channel_number
+			number_of_users = get_number_of_users_in_channel(channel_number)
+			map = x |> Map.put(:number_of_users,number_of_users)
+		end)
 	end
 
 	def create_channels do

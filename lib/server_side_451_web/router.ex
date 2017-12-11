@@ -19,6 +19,7 @@ defmodule ServerSide451Web.Router do
     get "/get_channel_list", ApiController, :return_available_channels
     get "/register_user", ApiController, :registerUser
     get "/check_user", ApiController, :check_user
+    get "/heart_beat", ApiController, :heart_beat
 
   end
 

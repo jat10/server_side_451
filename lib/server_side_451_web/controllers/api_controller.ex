@@ -5,7 +5,7 @@ defmodule ServerSide451Web.ApiController do
  
 
   def return_available_channels(conn, params) do
-  	list_of_channels = ServerSide451.Info.list_channels
+  	list_of_channels = ServerSide451.Info.list_channel_detailed
   	message = %{"success" => list_of_channels}
 
   	conn
@@ -52,6 +52,10 @@ defmodule ServerSide451Web.ApiController do
 
   	conn
     |> json(message)
+  end
+
+  def heart_beat(conn, %{"channel_id" => channel_id}) do
+  	
   end
 
   def start_timer(miliseconds) do
