@@ -12,22 +12,35 @@ defmodule ServerSide451Web.ApiController do
     |> json(message)
   end
 
-  def registerUser(conn, %{"channel_id" => channel_id, "user_name" => user_name, "mac_address" => mac_address, "phone_number" => phone_number}) do
+  def registerUser(conn, %{"channel_id" => channel_id, "user_name" => user_name, "mac_address" => mac_address, "phone_number" => phone_number , "ip_address" => ip_address}) do
+  	name = "channel:"<>channel_id |> String.to_atom
   	list_of_user_in_channel = ServerSide451.Info.get_user_by_channel_number(channel_id |> String.to_integer)
 
   	number_of_users_in_channel = Enum.count(list_of_user_in_channel)
 
-
-  	channel_avilable = if(number_of_users_in_channel <= 7)do
-  		channel = ServerSide451.Info.get_channel_by_channel_number(channel_id)
-		user = %{phone_number: phone_number,mac_address: mac_address,user_name: user_name}
-		ServerSide451.Info.create_user(channel,user)
-  		true
-  	else
-  		false
+  	{channel_avilable,state} = case number_of_users_in_channel do
+  		0 ->
+  			{true,"master"}
+  		1 -> 
+  			ServerSide451.Process.Timer.start(channel_id)
+  			{true,"slave"}
+  		7 ->
+  			GenServer.cast(name,:stop_timer)
+  			{false,""}
+  		_ ->
+  			if(number_of_users_in_channel <= 7) do
+  				{true,"slave"}
+  			else
+  				{false,""}
+  			end
   	end
-  		
 
+  	if(channel_avilable == true) do
+  		channel = ServerSide451.Info.get_channel_by_channel_number(channel_id)
+		user = %{phone_number: phone_number,mac_address: mac_address,user_name: user_name, ip_address: ip_address,state: state}
+		ServerSide451.Info.create_user(channel,user)
+  	end
+  	
   	message = %{"success" => %{"channel_avilable" => channel_avilable}}
   	conn
     |> json(message)
@@ -55,14 +68,35 @@ defmodule ServerSide451Web.ApiController do
   end
 
   def heart_beat(conn, %{"channel_id" => channel_id}) do
-  	
-  end
+  	 name = "channel:"<>channel_id |> String.to_atom
+  	 response = GenServer.call(name,:get_time)
 
-  def start_timer(miliseconds) do
-  	 case :timer.sleep(miliseconds) do
-  	 	:ok -> 
-  	 		:ok
+  	 message = case response.time_ended do
+  	 	true ->
+  	 		slaves = ServerSide451.Info.get_slaves(channel_id)
+  	 		master = ServerSide451.Info.get_master(channel_id)
+  	 		 %{"success" =>
+  	 		  %{"master" => 
+  	 		 	%{"master_id" => master.id,
+  	 		  	"master_ip_address" => master.ip_address,
+  	 		  	 "master_phone" => master.phone_number
+  	 		  	 },
+  	 		  "slaves" => slaves,
+  	 		  "state" => "timer-off"
+
+  	 		}}
+  	 	false ->
+  	 		 %{"success" =>
+  	 		  %{"master" => 
+  	 		 	%{},
+  	 		  "slaves" => [],
+  	 		  "state" => "timer-on"
+  	 		}}
+  	 		
   	 end
+
+  	conn
+    |> json(message)
+
   end
- 
 end

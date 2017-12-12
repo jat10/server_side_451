@@ -20,6 +20,19 @@ defmodule ServerSide451.Info do
     	|> Repo.get_by(phone_number: phone_number)
 	end
 
+	def get_master(channel_id) do
+		from(u in User, where: u.channel_id == ^channel_id) 
+    	|> Repo.get_by(state: "master")
+	end
+
+	def get_slaves(channel_id) do
+		from(u in User, where: u.channel_id == ^channel_id) 
+	    |> select([u], 
+	    	%{slave_id: u.id,
+	    	slave_ip: u.ip_address, slave_phone: u.phone_number})
+	    |> Repo.all
+	end
+
 	def get_user_by_channel_number(channel_number) do
 		from(u in User, where: u.channel_id == ^channel_number) 
 	    |> select([u], u.phone_number)
